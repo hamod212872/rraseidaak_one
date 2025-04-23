@@ -5,41 +5,65 @@
   <title>رصيدك</title>
   <style>
     body {
-      background-color: #111;
-      color: white;
+      margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-align: center;
-      padding-top: 100px;
+      background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+      color: #fff;
     }
 
-    .container {
-      background: #222;
-      padding: 40px;
-      border-radius: 20px;
-      width: 90%;
-      max-width: 400px;
-      margin: auto;
-      box-shadow: 0 0 20px rgba(0, 170, 255, 0.5);
+    nav {
+      background-color: #111;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
     }
 
-    h1 {
-      font-size: 28px;
-      margin-bottom: 20px;
+    nav h1 {
+      margin: 0;
       color: #00ccff;
     }
 
-    .balance {
-      font-size: 26px;
-      background: #333;
-      padding: 20px;
-      border-radius: 15px;
-      margin-top: 20px;
-      border: 1px solid #00ccff;
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #00ccff;
+    }
+
+    section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .home h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .balance-box, .contact-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
+    }
+
+    .balance-number {
+      font-size: 28px;
+      margin: 20px 0;
+      color: #00ffcc;
     }
 
     button {
-      margin-top: 30px;
-      padding: 12px 25px;
+      padding: 10px 25px;
       font-size: 18px;
       background: #00ccff;
       color: #111;
@@ -49,30 +73,60 @@
     }
 
     button:hover {
-      background: #00aacc;
+      background: #0099cc;
+    }
+
+    footer {
+      background-color: #000;
+      color: #888;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>هلا بيك بموقع "رصيدك"</h1>
-    <div class="balance" id="balance">رصيدك الحالي: <strong>0837199992</strong></div>
-    <button onclick="updateBalance()">حدّث رصيدك</button>
-  </div>
+
+  <nav>
+    <h1>رصيدك</h1>
+    <div>
+      <a href="#home">الرئيسية</a>
+      <a href="#balance">رصيدك</a>
+      <a href="#contact">تواصل معنا</a>
+    </div>
+  </nav>
+
+  <section id="home" class="home">
+    <h2>هلا بيك بموقع "رصيدك"</h2>
+    <p>احصل على رصيدك بطريقة سهلة وسريعة!</p>
+  </section>
+
+  <section id="balance">
+    <div class="balance-box">
+      <h3>معرفة رصيدك</h3>
+      <div class="balance-number" id="balanceValue">**********</div>
+      <button onclick="showBalance()">عرض الرصيد</button>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-box">
+      <h3>تواصل ويانه</h3>
+      <p>تابعنا على الإنستغرام:</p>
+      <a href="https://www.instagram.com/cv7.h?igsh=N2J1MnVvcHVrcGJ3" target="_blank" style="color: #00ccff;">@cv7.h</a>
+    </div>
+  </section>
+
+  <footer>
+    جميع الحقوق محفوظة © 2025
+  </footer>
 
   <script>
-    function generateRandomBalance() {
-      let num = '';
-      for (let i = 0; i < 10; i++) {
-        num += Math.floor(Math.random() * 10);
-      }
-      return num;
-    }
-
-    function updateBalance() {
-      const newBalance = generateRandomBalance();
-      document.getElementById('balance').innerHTML = 'رصيدك الحالي: <strong>' + newBalance + '</strong>';
+    function showBalance() {
+      const balance = "0837199992";
+      document.getElementById("balanceValue").textContent = balance;
     }
   </script>
+
 </body>
 </html>
