@@ -1,13 +1,12 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <title>رصيدك</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'Cairo', sans-serif;
@@ -17,16 +16,11 @@
     }
     #splash {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
+      top: 0; left: 0;
+      width: 100%; height: 100vh;
       background-color: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      font-weight: bold;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; font-weight: bold;
       z-index: 9999;
     }
     nav {
@@ -36,20 +30,14 @@
       padding: 10px;
     }
     nav a {
-      color: #fff;
-      text-decoration: none;
+      color: #fff; text-decoration: none;
       font-size: 14px;
       padding: 6px 10px;
       border-radius: 6px;
       transition: 0.3s;
     }
-    nav a:hover {
-      background: #444;
-    }
-    .container {
-      padding: 20px;
-      text-align: center;
-    }
+    nav a:hover { background: #444; }
+    .container { padding: 20px; text-align: center; }
     .balance-box {
       background: #333;
       padding: 20px;
@@ -77,9 +65,7 @@
       margin: 5px;
       transition: 0.3s;
     }
-    button:hover {
-      background-color: #666;
-    }
+    button:hover { background-color: #666; }
     #datetime {
       margin-top: 10px;
       font-size: 14px;
@@ -118,6 +104,7 @@
   <div id="datetime"></div>
 </div>
 <div class="toggle-mode" onclick="toggleMode()">تغيير الوضع</div>
+
 <script>
   function generateRandomBalance() {
     const digits = '0123456789';
@@ -126,39 +113,66 @@
       result += digits.charAt(Math.floor(Math.random() * digits.length));
     }
     return result;
-  }window.onload = () => { setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 2000);
+  }
 
-let saved = localStorage.getItem('balance');
-if (saved) {
-  document.getElementById('balance').textContent = saved;
-} else {
-  let random = generateRandomBalance();
-  localStorage.setItem('balance', random);
-  document.getElementById('balance').textContent = random;
-}
+  window.onload = () => {
+    setTimeout(() => {
+      document.getElementById('splash').style.display = 'none';
+    }, 2000);
 
-updateDateTime();
-setInterval(updateDateTime, 1000);
+    let saved = localStorage.getItem('balance');
+    if (saved) {
+      document.getElementById('balance').textContent = saved;
+    } else {
+      let random = generateRandomBalance();
+      localStorage.setItem('balance', random);
+      document.getElementById('balance').textContent = random;
+    }
 
-};
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+  };
 
-function tryCode() { const correctCode = "0837199992"; const input = document.getElementById('codeInput').value; const result = document.getElementById('result');
+  function tryCode() {
+    const correctCode = "0837199992";
+    const input = document.getElementById('codeInput').value;
+    const result = document.getElementById('result');
 
-if (input === correctCode) {
-  result.textContent = "صحيح!";
-  result.style.color = "#0f0";
-} else {
-  result.textContent = "غلط!";
-  result.style.color = "#f00";
-}
+    if (input === correctCode) {
+      result.textContent = "صحيح!";
+      result.style.color = "#0f0";
+    } else {
+      result.textContent = "غلط!";
+      result.style.color = "#f00";
+    }
+  }
 
-}
+  function shareBalance() {
+    const bal = document.getElementById('balance').textContent;
+    const shareText = `رصيدي بالموقع هو ${bal} سنت! جربه هسه.`;
+    if (navigator.share) {
+      navigator.share({ text: shareText });
+    } else {
+      alert("انسخ النص وشاركه: " + shareText);
+    }
+  }
 
-function shareBalance() { const bal = document.getElementById('balance').textContent; const shareText = رصيدي بالموقع هو ${bal} سنت! جربه هسه.; if (navigator.share) { navigator.share({ text: shareText }); } else { alert("انسخ النص وشاركه: " + shareText); } }
+  function updateDateTime() {
+    const now = new Date();
+    const datetime = now.toLocaleString('ar-EG');
+    document.getElementById('datetime').textContent = datetime;
+  }
 
-function updateDateTime() { const now = new Date(); const datetime = now.toLocaleString('ar-EG'); document.getElementById('datetime').textContent = datetime; }
-
-function toggleMode() { const body = document.body; if (body.style.background.includes("#fff")) { body.style.background = "linear-gradient(135deg, #000, #222)"; body.style.color = "#fff"; } else { body.style.background = "#fff"; body.style.color = "#000"; } } </script>
-
+  function toggleMode() {
+    const body = document.body;
+    if (body.style.background.includes("#fff")) {
+      body.style.background = "linear-gradient(135deg, #000, #222)";
+      body.style.color = "#fff";
+    } else {
+      body.style.background = "#fff";
+      body.style.color = "#000";
+    }
+  }
+</script>
 </body>
 </html>
