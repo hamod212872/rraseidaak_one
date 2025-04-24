@@ -3,7 +3,7 @@
   <meta charset="UTF-8">
   <title>رصيدك</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -11,9 +11,9 @@
     body {
       margin: 0;
       font-family: 'Cairo', sans-serif;
-      background: linear-gradient(135deg, #000, #111);
+      background: linear-gradient(135deg, #000, #222);
       color: #fff;
-      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
     }
     #splash {
       position: fixed;
@@ -28,17 +28,12 @@
       font-size: 28px;
       font-weight: bold;
       z-index: 9999;
-      animation: fadeOut 2s forwards 2s;
-    }
-    @keyframes fadeOut {
-      to { opacity: 0; visibility: hidden; }
     }
     nav {
       background: #111;
       display: flex;
       justify-content: space-around;
       padding: 10px;
-      box-shadow: 0 2px 10px rgba(255,0,0,0.2);
     }
     nav a {
       color: #fff;
@@ -46,33 +41,26 @@
       font-size: 14px;
       padding: 6px 10px;
       border-radius: 6px;
-      transition: background 0.3s, transform 0.2s;
+      transition: 0.3s;
     }
     nav a:hover {
-      background: #c00;
-      transform: scale(1.05);
+      background: #444;
     }
     .container {
       padding: 20px;
       text-align: center;
-      animation: slideIn 1s ease;
-    }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
     .balance-box {
-      background: #222;
+      background: #333;
       padding: 20px;
       border-radius: 10px;
       margin: 15px auto;
       font-size: 20px;
-      max-width: 350px;
-      box-shadow: 0 0 15px rgba(255,0,0,0.3);
+      max-width: 320px;
     }
     input[type="text"] {
       padding: 10px;
-      width: 90%;
+      width: 80%;
       border-radius: 8px;
       border: none;
       margin: 10px 0;
@@ -80,7 +68,7 @@
     }
     button {
       padding: 10px 20px;
-      background-color: #c00;
+      background-color: #444;
       border: none;
       border-radius: 8px;
       color: white;
@@ -90,13 +78,22 @@
       transition: 0.3s;
     }
     button:hover {
-      background-color: #f00;
-      transform: scale(1.05);
+      background-color: #666;
     }
-    #result {
-      font-weight: bold;
-      font-size: 18px;
+    #datetime {
       margin-top: 10px;
+      font-size: 14px;
+      color: #ccc;
+    }
+    .toggle-mode {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      background: #222;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -118,7 +115,9 @@
   <button onclick="tryCode()">تحقق</button>
   <button onclick="shareBalance()">مشاركة رصيدك</button>
   <p id="result"></p>
+  <div id="datetime"></div>
 </div>
+<div class="toggle-mode" onclick="toggleMode()">تغيير الوضع</div>
 <script>
   function generateRandomBalance() {
     const digits = '0123456789';
@@ -127,7 +126,7 @@
       result += digits.charAt(Math.floor(Math.random() * digits.length));
     }
     return result;
-  }window.onload = () => { let splash = document.getElementById('splash'); setTimeout(() => { splash.style.display = 'none'; }, 2000);
+  }window.onload = () => { setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 2000);
 
 let saved = localStorage.getItem('balance');
 if (saved) {
@@ -137,6 +136,9 @@ if (saved) {
   localStorage.setItem('balance', random);
   document.getElementById('balance').textContent = random;
 }
+
+updateDateTime();
+setInterval(updateDateTime, 1000);
 
 };
 
@@ -152,7 +154,11 @@ if (input === correctCode) {
 
 }
 
-function shareBalance() { const bal = document.getElementById('balance').textContent; const shareText = رصيدي بالموقع هو ${bal} سنت! جربه هسه.; if (navigator.share) { navigator.share({ text: shareText }); } else { alert("انسخ النص وشاركه: " + shareText); } } </script>
+function shareBalance() { const bal = document.getElementById('balance').textContent; const shareText = رصيدي بالموقع هو ${bal} سنت! جربه هسه.; if (navigator.share) { navigator.share({ text: shareText }); } else { alert("انسخ النص وشاركه: " + shareText); } }
+
+function updateDateTime() { const now = new Date(); const datetime = now.toLocaleString('ar-EG'); document.getElementById('datetime').textContent = datetime; }
+
+function toggleMode() { const body = document.body; if (body.style.background.includes("#fff")) { body.style.background = "linear-gradient(135deg, #000, #222)"; body.style.color = "#fff"; } else { body.style.background = "#fff"; body.style.color = "#000"; } } </script>
 
 </body>
 </html>
