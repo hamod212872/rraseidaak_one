@@ -40,13 +40,15 @@
       padding: 20px;
       text-align: center;
     }
-    .balance-box {
+    .balance-fixed {
+      position: absolute;
+      top: 10px;
+      left: 15px;
       background: #333;
-      padding: 20px;
+      padding: 12px 18px;
       border-radius: 10px;
-      margin: 15px auto;
-      font-size: 20px;
-      max-width: 320px;
+      font-size: 18px;
+      text-align: left;
     }
     input[type="text"] {
       padding: 10px;
@@ -76,7 +78,7 @@
       color: #000;
       padding: 20px 40px;
       border-radius: 12px;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: bold;
       box-shadow: 0 0 10px #0f0;
       z-index: 10000;
@@ -85,20 +87,21 @@
 </head>
 <body>
 <div id="splash">جاري التحميل...</div>
-<div id="congrats">مبروك!</div>
+<div id="congrats">مبروك عليك ربحت قندره أوتوماتيكيه!</div>
 
 <nav>
   <a href="#">الرئيسية</a>
-  <a href="#balance">رصيدك</a>
+  <a href="#guess">جرب حظك</a>
   <a href="https://www.instagram.com/cv7.h?igsh=N2J1MnVvcHVrcGJ3" target="_blank">تواصل معنا</a>
   <a href="https://www.instagram.com/cv7.h?igsh=N2J1MnVvcHVrcGJ3" target="_blank">إبلاغ عن مشكلة</a>
 </nav>
 
-<div class="container">
-  <div class="balance-box">
-    <div style="font-size: 22px; margin-bottom: 10px;">رصيدك</div>
-    <div style="font-size: 24px; font-weight: bold;" id="balance">1100388389</div>
-  </div>
+<div class="balance-fixed">
+  <div><strong>رصيدك:</strong></div>
+  <div id="balance">285710038</div>
+</div>
+
+<div class="container" id="guess">
   <input type="text" id="codeInput" placeholder="اكتب الكود">
   <br>
   <button onclick="tryCode()">تحقق</button>
@@ -119,7 +122,7 @@
     document.getElementById("winSound").play();
     setTimeout(() => {
       div.style.display = "none";
-    }, 3000);
+    }, 4000);
   }
 
   function tryCode() {
@@ -127,26 +130,21 @@
     const result = document.getElementById('result');
     const balanceEl = document.getElementById('balance');
 
-    if (input === "11") {
-      result.textContent = "صحيح! تمت إضافة 1$ إلى رصيدك.";
+    if (input === "55") {
+      result.textContent = "صح! مبروك عليك ربحت قندره أوتوماتيكيه!";
       result.style.color = "#0f0";
       balanceEl.textContent = "$1";
       showCongrats();
     } else {
-      result.textContent = "غلط!";
+      result.textContent = "غلط. خمن عدل لا أطيك حضك!";
       result.style.color = "#f00";
     }
   }
 
   function shareBalance() {
     const bal = document.getElementById('balance').textContent;
-    const shareText = `رصيدي بالموقع هو ${bal}! جربه هسه.`;
+    const shareText = `رصيدي بالموقع هو ${bal}! جرب حظك هسه.`;
     if (navigator.share) {
       navigator.share({ text: shareText });
     } else {
       alert("انسخ النص وشاركه: " + shareText);
-    }
-  }
-</script>
-</body>
-</html>
