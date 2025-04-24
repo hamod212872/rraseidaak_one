@@ -1,40 +1,169 @@
-<style>
-  #congrats {
-    display: none;
-    font-size: 28px;
-    color: gold;
-    margin-top: 15px;
-    animation: flash 1s ease-in-out infinite;
-  }
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>رصيدك | الموقع الرسمي</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="https://i.imgur.com/UJvZL6b.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #000, #111);
+      color: white;
+      transition: all 0.3s;
+    }
+    header {
+      background: #111;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 0 10px #000;
+    }
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background: #222;
+      padding: 10px;
+      font-size: 14px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      background: #333;
+    }
+    .container {
+      padding: 20px;
+      text-align: center;
+    }
+    .card {
+      background: #1c1c1c;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    }
+    .card h2 {
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+    .balance {
+      font-size: 28px;
+      font-weight: bold;
+      background: #222;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    input[type="text"] {
+      width: 90%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    button {
+      background: crimson;
+      border: none;
+      padding: 10px 20px;
+      color: white;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: darkred;
+    }
+    #result {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 12px;
+      color: #aaa;
+    }
+    @keyframes success {
+      0% { transform: scale(1); color: #0f0; }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div id="splash" style="position:fixed;top:0;left:0;width:100%;height:100vh;background:#000;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:bold;z-index:9999;">جاري التحميل...</div>  <header>رصيدك</header>
+  <nav>
+    <a href="#">الرئيسية</a>
+    <a href="#balance">رصيدك</a>
+    <a href="https://www.instagram.com/cv7.h?igsh=N2J1MnVvcHVrcGJ3" target="_blank">تواصل معنا</a>
+    <a href="https://www.instagram.com/cv7.h?igsh=N2J1MnVvcHVrcGJ3" target="_blank">إبلاغ عن مشكلة</a>
+  </nav>  <div class="container">
+    <div class="card">
+      <h2>رصيدك الحالي</h2>
+      <div class="balance" id="balance">0000000000</div>
+      <input type="text" id="codeInput" placeholder="جرب الرصيد">
+      <br>
+      <button onclick="tryCode()">تحقق</button>
+      <button onclick="shareBalance()">مشاركة رصيدك</button>
+      <p id="result"></p>
+    </div>
+  </div>  <div class="footer">جميع الحقوق محفوظة &copy; 2025</div>  <script>
+    function generateRandomBalance() {
+      const digits = '0123456789';
+      let result = '';
+      for (let i = 0; i < 10; i++) {
+        result += digits.charAt(Math.floor(Math.random() * digits.length));
+      }
+      return result;
+    }
 
-  @keyframes flash {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-</style>
+    window.onload = () => {
+      setTimeout(() => {
+        document.getElementById('splash').style.display = 'none';
+      }, 1500);
 
-<!-- أضف هذا داخل .container تحت <p id="result"></p> -->
-<div id="congrats">مبروك! تم التحقق بنجاح!</div>
+      let saved = localStorage.getItem('balance');
+      if (saved) {
+        document.getElementById('balance').textContent = saved;
+      } else {
+        let random = generateRandomBalance();
+        localStorage.setItem('balance', random);
+        document.getElementById('balance').textContent = random;
+      }
+    };
 
-<script>
-function tryCode() {
-  const input = document.getElementById('codeInput').value;
-  const result = document.getElementById('result');
-  const currentBalance = document.getElementById('balance').textContent;
-  const congrats = document.getElementById('congrats');
+    function tryCode() {
+      const correctCode = "00";
+      const input = document.getElementById('codeInput').value;
+      const result = document.getElementById('result');
+      if (input === correctCode) {
+        result.textContent = "مبروك! الكود صحيح";
+        result.style.color = "#0f0";
+        result.style.animation = "success 0.5s ease-in-out";
+      } else {
+        result.textContent = "الكود خاطئ!";
+        result.style.color = "#f00";
+        result.style.animation = "none";
+      }
+    }
 
-  // تحقق إذا كتب "00" وكان الرصيد هو 112345678
-  if (input === "00" && currentBalance === "112345678") {
-    result.textContent = "صحيح!";
-    result.style.color = "#0f0";
-    congrats.style.display = "block"; // عرض التهنئة
-    setTimeout(() => {
-      congrats.style.display = "none";
-    }, 3000); // اختفائها بعد 3 ثواني
-  } else {
-    result.textContent = "غلط!";
-    result.style.color = "#f00";
-    congrats.style.display = "none";
-  }
-}
-</script>
+    function shareBalance() {
+      const bal = document.getElementById('balance').textContent;
+      const shareText = `رصيدي بالموقع هو ${bal} سنت! جربه هسه.`;
+      if (navigator.share) {
+        navigator.share({ text: shareText });
+      } else {
+        alert("انسخ النص وشاركه: " + shareText);
+      }
+    }
+  </script></body>
+  </html>
